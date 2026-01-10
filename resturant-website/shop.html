@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Menu Flavors of Dawn — Fresh ingredients and signature cuisine.">
+  <title>Menú — Flavors of Dawn</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="site">
+    
+    <header class="header">
+      <div class="header-inner">
+        <a class="logo" href="index.html">
+          <span class="logo-line logo-line--top">Flavors</span>
+          <span class="logo-line logo-line--bottom">of Dawn</span>
+        </a>
+        <nav class="nav">
+          <ul class="nav-list">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="shop.html" class="nav-link is-active">Menu</a></li>
+            <li><a href="contact.html" class="nav-link">Reservations</a></li>
+          </ul>
+        </nav>
+        <div class="utility">
+          <button class="icon-button cart" type="button">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M6 6h14l-1.5 8.5H7.7L6 6z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="19" r="1.6" fill="currentColor"/><circle cx="17" cy="19" r="1.6" fill="currentColor"/></svg>
+            <span class="cart-count">0</span>
+          </button>
+          <button class="menu-toggle"><span class="menu-toggle-label">Menu</span></button>
+        </div>
+      </div>
+      <div id="mobile-menu" class="mobile-menu" hidden>
+        <ul class="mobile-menu-list">
+          <li><a href="index.html" class="mobile-link">Home</a></li>
+          <li><a href="shop.html" class="mobile-link">View Menu</a></li>
+          <li><a href="contact.html" class="mobile-link">Contact</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <section id="shop">
+      <div class="section-inner">
+        <header class="shop-header">
+          <h2 class="shop-title">Our Menu</h2>
+          <p class="shop-subtitle">Local cuisine · Fresh ingredients</p>
+
+          <nav class="shop-filters">
+  <button class="is-active" data-filter="todo">All</button>
+  <button data-filter="quick">Quick Bites</button> 
+  <button data-filter="mains">Main Courses</button> 
+  <button data-filter="desserts">Desserts</button> 
+</nav>
+        </header>
+
+        <div class="shop-grid">
+
+          <article class="shop-item" data-category="quick">
+            <div class="shop-image img-burger"></div>
+            <div class="shop-info">
+              <h3>Classic Burger</h3>
+              <p>Angus beef, local cheese</p>
+              <span>$14.99</span>
+              <button class="button button--secondary" data-add-to-cart data-id="food-burger" data-name="Classic Burger" data-price="14.99" data-image="assets/shop/comida-rapida-burguer.webp">Order</button>
+            </div>
+          </article>
+
+          <article class="shop-item" data-category="quick">
+            <div class="shop-image img-burrito"></div>
+            <div class="shop-info">
+              <h3>Burrito Dawn</h3>
+              <p>Beans, avocado, meat</p>
+              <span>$12.99</span>
+              <button class="button button--secondary" data-add-to-cart data-id="food-burrito" data-name="Burrito Dawn" data-price="12.99" data-image="assets/shop/comida-rapida-burrito.webp">Order</button>
+            </div>
+          </article>
+
+          <article class="shop-item" data-category="quick">
+            <div class="shop-image img-sandwich"></div>
+            <div class="shop-info">
+              <h3>Artisanal Sandwich</h3>
+              <p>Sourdough bread, vegetables</p>
+              <span>$7.99</span>
+              <button class="button button--secondary" data-add-to-cart data-id="food-sandwich" data-name="Artisanal Sandwich" data-price="7.99" data-image="assets/shop/comida-rapida-sandwich.webp">Order</button>
+            </div>
+          </article>
+
+          <article class="shop-item" data-category="mains">
+            <div class="shop-image img-Dishes-1"></div>
+            <div class="shop-info">
+              <h3>Full Breakfast</h3>
+              <p>Eggs, bacon</p>
+              <span>$14.99</span>
+              <button class="button button--secondary" data-add-to-cart data-id="plate-1" data-name="Full Breakfast" data-price="14.99" data-image="assets/shop/platillo-1.webp">Order</button>
+            </div>
+          </article>
+
+          <article class="shop-item" data-category="mains">
+            <div class="shop-image img-Dishes-2"></div>
+            <div class="shop-info">
+              <h3>Fresh Pasta</h3>
+              <p>Homemade tomato sauce</p>
+              <span>$19.99</span>
+              <button class="button button--secondary" data-add-to-cart data-id="plate-2" data-name="Fresh Pasta" data-price="19.99" data-image="assets/shop/platillo-2.webp">Order</button>
+            </div>
+          </article>
+
+          <article class="shop-item" data-category="mains">
+            <div class="shop-image img-Dishes-5"></div>
+            <div class="shop-info">
+              <h3>House Salad</h3>
+              <p>Organic greens, vinaigrette</p>
+              <span>$12.99</span>
+              <button class="button button--secondary" data-add-to-cart data-id="plate-4" data-name="House Salad" data-price="12.99" data-image="assets/shop/platillo-4.webp">Order</button>
+            </div>
+          </article>
+
+          <article class="shop-item" data-category="mains">
+            <div class="shop-image img-Dishes-4"></div>
+            <div class="shop-info">
+              <h3>Meat Cut</h3>
+              <p>Accompanied by rustic mashed potatoes</p>
+              <span>$25.99</span>
+              <button class="button button--secondary" data-add-to-cart data-id="plate-5" data-name="Meat Cut" data-price="25.99" data-image="assets/shop/platillo-5.webp">Order</button>
+            </div>
+          </article>
+          
+           <article class="shop-item" data-category="mains">
+            <div class="shop-image img-Dishes-6"></div>
+            <div class="shop-info">
+              <h3>Grilled Salmon</h3>
+              <p>With sautéed vegetables</p>
+              <span>$19.99</span>
+              <button class="button button--secondary" data-add-to-cart data-id="plate-6" data-name="Grilled Salmon" data-price="19.99" data-image="assets/shop/platillo-6.webp">Order</button>
+            </div>
+          </article>
+
+          <article class="shop-item" data-category="desserts">
+            <div class="shop-image img-chocolate"></div>
+            <div class="shop-info">
+              <h3>Chocolate Cake</h3>
+              <p>Organic 70% cacao</p>
+              <span>$6.99</span>
+              <button class="button button--secondary" data-add-to-cart data-id="dessert-choc" data-name="Chocolate Cake" data-price="6.99" data-image="assets/shop/postre-chocolate.webp">Order</button>
+            </div>
+          </article>
+
+          <article class="shop-item" data-category="desserts">
+            <div class="shop-image img-strawberry"></div>
+            <div class="shop-info">
+              <h3>Strawberry Cheesecake</h3>
+              <p>Fresh local strawberries</p>
+              <span>$7.99</span>
+              <button class="button button--secondary" data-add-to-cart data-id="dessert-fresa" data-name="Strawberry Cheesecake" data-price="7.99" data-image="assets/shop/postre-fresa.webp">Order</button>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <p>© Flavors of Dawn Restaurant</p>
+      </div>
+    </footer>
+  </div>
+
+  <div class="cart-panel">
+    <div class="cart-panel-header">
+      <h3>Your Order</h3>
+      <button class="cart-close">×</button>
+    </div>
+    <ul class="cart-items"></ul>
+    <div class="cart-panel-footer">
+      <button class="button button--primary">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <div id="product-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-img-container" id="modal-img"></div>
+      <div class="modal-info">
+        <h2 id="modal-title">Dish</h2>
+        <p class="modal-price" id="modal-price">$0</p>
+        <p class="modal-desc">
+          Freshly prepared with ingredients from local producers. 
+          Authentic flavor of Flavors of Dawn.
+        </p>
+        <div class="modal-options">
+          <label>Notes for the chef:</label>
+          <select>
+            <option>No notes</option>
+            <option>No onion</option>
+            <option>Sauce on the side</option>
+            <option>Extra spicy</option>
+          </select>
+        </div>
+        <button id="modal-add-btn" class="button button--primary">Add to Order</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

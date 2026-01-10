@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Flavors of Dawn</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="site">
+    <header class="header">
+      <div class="header-inner">
+        <a class="logo" href="index.html">
+          <span class="logo-line logo-line--top">Flavors</span>
+          <span class="logo-line logo-line--bottom">of Dawn</span>
+        </a>
+        <nav class="nav">
+          <ul class="nav-list">
+             <li><a href="index.html" class="nav-link">Home</a></li>
+             <li><a href="shop.html" class="nav-link">Menu</a></li> 
+             <li><a href="contact.html" class="nav-link is-active">Reservations</a></li> 
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section id="contact">
+      <div class="contact-hero">
+        <div class="contact-left">
+          <h2>Contact Us</h2>
+          <p class="contact-email">reservas@flavorsofdawn.com</p>
+          <p class="contact-address">
+            San José, Costa Rica<br>
+            Signature Cuisine
+          </p>
+          <div class="contact-socials">
+             <a href="#" target="_blank"><i class="social ig"></i></a>
+             <a href="#" target="_blank"><i class="social fb"></i></a>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:center;">
+          <form class="contact-form">
+            <h3>Make a Reservation / Inquiry</h3>
+            <div class="form-row">
+              <input type="text" placeholder="Name" required>
+              <input type="text" placeholder="Last Name" required>
+            </div>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Message (e.g.: Reservation for 2 people on Friday)" rows="4" required></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© Flavors of Dawn</p>
+    </footer>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
