@@ -18,7 +18,7 @@ The focus is on clean design, responsiveness and good performance, especially on
 - CSS
 - JavaScript
 
-## Live version
+## coffee website
 https://natural-coffee-portfolio.netlify.app/
 
 ## Shopify clothes website concep
