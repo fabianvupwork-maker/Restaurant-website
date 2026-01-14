@@ -22,7 +22,7 @@ The focus is on clean design, responsiveness and good performance, especially on
 https://natural-coffee-portfolio.netlify.app/
 
 ## Shopify clothes website concept
-https://5z1pwe-zj.myshopify.com/
+https://5z1pwe-zj.
 
 ## Author
 Built by FV.WebStudio
