@@ -21,7 +21,7 @@ The focus is on clean design, responsiveness and good performance, especially on
 ## coffee website
 https://natural-coffee-portfolio.netlify.app/
 
-## Shopify clothes website concep
+## Shopify clothes website concept
 https://5z1pwe-zj.myshopify.com/
 
 ## Author
