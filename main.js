@@ -300,6 +300,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* =========================================
+   SCRIPT DE MAGIA VISUAL
+   ========================================= */
 
+// 1. EFECTO PARALLAX EN EL HERO (La imagen se mueve lento)
+window.addEventListener('scroll', function() {
+  const scrollPosition = window.pageYOffset;
+  const heroImage = document.querySelector('.hero-section img');
+  
+  if (heroImage) {
+    // La imagen se mueve a la mitad de velocidad del scroll (0.5)
+    heroImage.style.transform = `translateY(${scrollPosition * 0.5}px)`;
+  }
+});
+
+// 2. DETECTOR DE SCROLL PARA ANIMACIONES (Reveal)
+const observerOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.15 // Se activa cuando el 15% del elemento es visible
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target); // Dejar de observar una vez animado
+    }
+  });
+}, observerOptions);
+
+// Buscar todos los elementos que tengan la clase 'animate-up'
+document.addEventListener('DOMContentLoaded', () => {
+  const animatedElements = document.querySelectorAll('.animate-up');
+  animatedElements.forEach(el => observer.observe(el));
+});
 
   });
