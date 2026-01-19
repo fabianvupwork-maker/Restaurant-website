@@ -46,22 +46,22 @@
 
     <section id="shop">
       <div class="section-inner">
-        <header class="shop-header">
+       <header class="shop-header" style="background-image: url('assets/shop/shop-fondo.webp'); padding: 100px 20px; color: white;">
           <h2 class="shop-title">Our Menu</h2>
           <p class="shop-subtitle">Local cuisine · Fresh ingredients</p>
 
           <nav class="shop-filters">
-  <button class="is-active" data-filter="todo">All</button>
-  <button data-filter="quick">Quick Bites</button> 
-  <button data-filter="mains">Main Courses</button> 
-  <button data-filter="desserts">Desserts</button> 
-</nav>
+            <button class="is-active" data-filter="todo">All</button>
+            <button data-filter="quick">Quick Bites</button> 
+            <button data-filter="mains">Main Courses</button> 
+            <button data-filter="desserts">Desserts</button> 
+          </nav>
         </header>
 
         <div class="shop-grid">
 
           <article class="shop-item" data-category="quick">
-            <div class="shop-image img-burger"></div>
+            <div class="shop-image" style="background-image: url('assets/shop/comida-rapida-burguer.webp');"></div>
             <div class="shop-info">
               <h3>Classic Burger</h3>
               <p>Angus beef, local cheese</p>
@@ -71,7 +71,7 @@
           </article>
 
           <article class="shop-item" data-category="quick">
-            <div class="shop-image img-burrito"></div>
+            <div class="shop-image" style="background-image: url('assets/shop/comida-rapida-burrito.webp');"></div>
             <div class="shop-info">
               <h3>Burrito Dawn</h3>
               <p>Beans, avocado, meat</p>
@@ -81,7 +81,7 @@
           </article>
 
           <article class="shop-item" data-category="quick">
-            <div class="shop-image img-sandwich"></div>
+            <div class="shop-image" style="background-image: url('assets/shop/comida-rapida-sandwich.webp');"></div>
             <div class="shop-info">
               <h3>Artisanal Sandwich</h3>
               <p>Sourdough bread, vegetables</p>
@@ -91,7 +91,7 @@
           </article>
 
           <article class="shop-item" data-category="mains">
-            <div class="shop-image img-Dishes-1"></div>
+            <div class="shop-image" style="background-image: url('assets/shop/platillo-1.webp');"></div>
             <div class="shop-info">
               <h3>Full Breakfast</h3>
               <p>Eggs, bacon</p>
@@ -101,7 +101,7 @@
           </article>
 
           <article class="shop-item" data-category="mains">
-            <div class="shop-image img-Dishes-2"></div>
+            <div class="shop-image" style="background-image: url('assets/shop/platillo-2.webp');"></div>
             <div class="shop-info">
               <h3>Fresh Pasta</h3>
               <p>Homemade tomato sauce</p>
@@ -111,7 +111,7 @@
           </article>
 
           <article class="shop-item" data-category="mains">
-            <div class="shop-image img-Dishes-5"></div>
+            <div class="shop-image" style="background-image: url('assets/shop/platillo-4.webp');"></div>
             <div class="shop-info">
               <h3>House Salad</h3>
               <p>Organic greens, vinaigrette</p>
@@ -121,7 +121,7 @@
           </article>
 
           <article class="shop-item" data-category="mains">
-            <div class="shop-image img-Dishes-4"></div>
+            <div class="shop-image" style="background-image: url('assets/shop/platillo-5.webp');"></div>
             <div class="shop-info">
               <h3>Meat Cut</h3>
               <p>Accompanied by rustic mashed potatoes</p>
@@ -131,7 +131,7 @@
           </article>
           
            <article class="shop-item" data-category="mains">
-            <div class="shop-image img-Dishes-6"></div>
+            <div class="shop-image" style="background-image: url('assets/shop/platillo-6.webp');"></div>
             <div class="shop-info">
               <h3>Grilled Salmon</h3>
               <p>With sautéed vegetables</p>
@@ -141,7 +141,7 @@
           </article>
 
           <article class="shop-item" data-category="desserts">
-            <div class="shop-image img-chocolate"></div>
+            <div class="shop-image" style="background-image: url('assets/shop/postre-chocolate.webp');"></div>
             <div class="shop-info">
               <h3>Chocolate Cake</h3>
               <p>Organic 70% cacao</p>
@@ -151,7 +151,7 @@
           </article>
 
           <article class="shop-item" data-category="desserts">
-            <div class="shop-image img-strawberry"></div>
+            <div class="shop-image" style="background-image: url('assets/shop/postre-fresa.webp');"></div>
             <div class="shop-info">
               <h3>Strawberry Cheesecake</h3>
               <p>Fresh local strawberries</p>
@@ -176,9 +176,16 @@
       <h3>Your Order</h3>
       <button class="cart-close">×</button>
     </div>
-    <ul class="cart-items"></ul>
+    
+    <ul class="cart-items">
+      </ul>
+    
     <div class="cart-panel-footer">
-      <button class="button button--primary">Proceed to Checkout</button>
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cart-total-price">$0.00</span>
+      </div>
+      <button class="button button--primary full-width" id="checkout-btn">Complete Order via WhatsApp</button>
     </div>
   </div>
 
@@ -206,6 +213,21 @@
       </div>
     </div>
   </div>
+
+
+<div class="social-sidebar">
+  <a href="https://www.instagram.com/TU_USUARIO" target="_blank" class="social-icon" aria-label="Instagram">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+  </a>
+
+  <a href="https://www.facebook.com/TU_PAGINA" target="_blank" class="social-icon" aria-label="Facebook">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <path fill="currentColor" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  </a>
+</div>
 
   <script src="main.js"></script>
 </body>

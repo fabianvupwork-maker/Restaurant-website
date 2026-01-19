@@ -1,37 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
   
-  /* 
-     1. CONFIGURACIÓN Y REFERENCIAS
-   */
+  /*1. REFERENCIAS Y CONFIGURACIÓN*/
+
   const cartButton = document.querySelector(".icon-button.cart");
   const cartPanel = document.querySelector(".cart-panel");
   const cartClose = document.querySelector(".cart-close");
   const cartCount = document.querySelector(".cart-count");
-  const cartItems = document.querySelector(".cart-items");
-  const checkoutButton = document.querySelector(".cart-panel-footer .button");
+  const cartItemsContainer = document.querySelector(".cart-items");
+  const cartTotalLabel = document.getElementById("cart-total-price");
+  const checkoutButton = document.getElementById("checkout-btn");
+  const modal = document.getElementById("product-modal");
 
-  // Leer carrito o iniciar vacío
-  let cart = JSON.parse(localStorage.getItem("loopCart")) || [];
+  
+  let cart = JSON.parse(localStorage.getItem("dawnCart")) || [];
+  
   updateCartUI();
+  updateYear();
 
-  /* 
-     2. LÓGICA DEL CARRITO
-      */
   
   function saveCart() {
-    localStorage.setItem("loopCart", JSON.stringify(cart));
+    localStorage.setItem("dawnCart", JSON.stringify(cart));
   }
 
   function updateCartUI() {
-    if (!cartItems) return;
+    if (!cartItemsContainer) return;
 
-    cartItems.innerHTML = "";
+    cartItemsContainer.innerHTML = "";
     let totalItems = 0;
     let totalPrice = 0;
 
     if (cart.length === 0) {
-      cartItems.innerHTML = "<p class='empty-cart-msg'>Your order is empty.<br>Add something delicious!</p>";
+      cartItemsContainer.innerHTML = `
+        <div class='empty-cart-msg'>
+          <p>Your dining selection is empty.</p>
+          <a href="shop.html" class="button button--outline button--small">Browse Menu</a>
+        </div>`;
+      if (checkoutButton) checkoutButton.disabled = true;
     } else {
+      if (checkoutButton) checkoutButton.disabled = false;
+      
       cart.forEach((item, index) => {
         totalItems += item.qty;
         totalPrice += item.price * item.qty;
@@ -39,25 +46,37 @@ document.addEventListener("DOMContentLoaded", () => {
         const li = document.createElement("li");
         li.className = "cart-item";
         li.innerHTML = `
-          <img src="${item.image}" alt="${item.name}">
+          <div class="cart-item-img" style="background-image: url('${item.image}')"></div>
           <div class="cart-item-info">
-            <strong>${item.name}</strong><br>
-            <span>₡${item.price.toLocaleString()}</span> · x${item.qty}
+            <div class="cart-item-header">
+              <strong>${item.name}</strong>
+              <button class="remove-item" data-index="${index}" aria-label="Remove">×</button>
+            </div>
+            <div class="cart-item-details">
+              <span>$${item.price.toFixed(2)}</span>
+              <div class="qty-controls">
+                <span class="qty-label">x${item.qty}</span>
+              </div>
+            </div>
           </div>
-          <button class="remove-item" data-index="${index}" aria-label="Delete">×</button>
         `;
-        cartItems.appendChild(li);
+        cartItemsContainer.appendChild(li);
       });
     }
 
-    if (cartCount) cartCount.textContent = totalItems;
+   
+    if (cartCount) {
+      cartCount.textContent = totalItems;
+      cartCount.style.display = totalItems > 0 ? 'block' : 'none';
+    }
+    
+    if (cartTotalLabel) {
+      cartTotalLabel.textContent = "$" + totalPrice.toFixed(2);
+    }
 
-    // Eventos eliminar
-    const removeButtons = document.querySelectorAll(".remove-item");
-    removeButtons.forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        removeFromCart(e.target.dataset.index);
-      });
+   
+    document.querySelectorAll(".remove-item").forEach(btn => {
+      btn.addEventListener("click", (e) => removeFromCart(e.target.dataset.index));
     });
   }
 
@@ -67,7 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCartUI();
   }
 
-  function addToCart(product) {
+ 
+  window.addToCart = function(product) {
     const existing = cart.find(item => item.id === product.id);
     if (existing) {
       existing.qty++;
@@ -76,265 +96,211 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     saveCart();
     updateCartUI();
+    
+    
     if (cartPanel) cartPanel.classList.add("is-open");
-    showFeedback(product.name);
+    
+    
+    showToast(`${product.name} added to your selection`);
+  };
+
+  /*3. INTERFAZ DE USUARIO (UX)*/
+
+  // Toast
+  function showToast(message) {
+    let toast = document.getElementById("toast-notification");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "toast-notification";
+      document.body.appendChild(toast);
+    }
+    
+    toast.textContent = message;
+    toast.classList.add("show");
+    
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3000);
   }
 
-  function showFeedback(text) {
-    const toast = document.createElement("div");
-    toast.className = "toast-notification";
-    toast.textContent = `¡${text} At your service!`; 
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  }
-
-  /*
-     3. INTERACCIÓN UI
-     */
-  
+  // Toggle 
   if (cartButton && cartPanel) {
     cartButton.addEventListener("click", () => cartPanel.classList.add("is-open"));
   }
   if (cartClose && cartPanel) {
     cartClose.addEventListener("click", () => cartPanel.classList.remove("is-open"));
   }
+  
+  // (overlay)
+  document.addEventListener("click", (e) => {
+    if (cartPanel && cartPanel.classList.contains("is-open") && 
+        !cartPanel.contains(e.target) && 
+        !cartButton.contains(e.target) &&
+        !e.target.closest(".add-to-cart-btn")) {
+      cartPanel.classList.remove("is-open");
+    }
+  });
 
+  // Móvil
+  const menuToggle = document.querySelector(".menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener("click", () => {
+      const isHidden = mobileMenu.hidden;
+      mobileMenu.hidden = !isHidden;
+      
+      const label = menuToggle.querySelector(".menu-toggle-label");
+      if (label) label.textContent = isHidden ? "Close" : "Menu";
+      menuToggle.classList.toggle("is-active", isHidden);
+    });
+  }
+
+  // Header
+  const header = document.querySelector(".header");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) {
+      header.classList.add("is-scrolled");
+    } else {
+      header.classList.remove("is-scrolled");
+    }
+  });
+
+  /*4. CHECKOUT (WhatsApp)*/
   if (checkoutButton) {
     checkoutButton.addEventListener("click", () => {
-      if (cart.length > 0) window.location.href = "checkout.html";
-      else alert("Your order is empty.");
+      if (cart.length === 0) return;
+
+      const phoneNumber = "50686646411";
+      let message = "Hello, Flavors of Dawn. I would like to place an order:\n\n";
+      let total = 0;
+
+      cart.forEach((item) => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        message += `• ${item.qty}x ${item.name} - $${subtotal.toFixed(2)}\n`;
+      });
+
+      message += `\n*TOTAL: $${total.toFixed(2)}*`;
+      message += "\n\nMy name is: ";
+
+      const encodedMessage = encodeURIComponent(message);
+      const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+      
+      window.open(url, '_blank');
     });
   }
 
-  /* 
-     4. MODAL DE DETALLES (PLATILLOS) */
-  const modal = document.getElementById("product-modal");
-  const modalClose = document.querySelector(".close-modal");
-  const shopImages = document.querySelectorAll(".shop-image");
+  /*5. MODAL DE PRODUCTOS*/
+  const shopItems = document.querySelectorAll(".shop-item");
   
-  if (modal && shopImages.length > 0) {
-    shopImages.forEach(img => {
-      img.addEventListener("click", (e) => {
-        const parentArticle = img.closest(".shop-item");
-        const btnData = parentArticle.querySelector("[data-add-to-cart]");
-        
-        document.getElementById("modal-title").textContent = btnData.dataset.name;
-        document.getElementById("modal-price").textContent = "$" + Number(btnData.dataset.price).toLocaleString();
-        
-       
-        let bgImg = img.style.backgroundImage;
-        if (!bgImg || bgImg === 'none') {
-          bgImg = window.getComputedStyle(img).backgroundImage;
-        }
-        document.getElementById("modal-img").style.backgroundImage = bgImg;
+  if (modal && shopItems.length > 0) {
+    const modalClose = document.querySelector(".close-modal");
+    const modalAddBtn = document.getElementById("modal-add-btn");
+    
 
-       
-        const modalBtn = document.getElementById("modal-add-btn");
-        const newBtn = modalBtn.cloneNode(true);
-        modalBtn.parentNode.replaceChild(newBtn, modalBtn);
-        
-        newBtn.addEventListener("click", () => {
-          addToCart({
-            id: btnData.dataset.id,
-            name: btnData.dataset.name,
-            price: Number(btnData.dataset.price),
-            image: btnData.dataset.image
-          });
-          modal.style.display = "none";
-        });
+    let currentProductData = null;
 
-        modal.style.display = "flex";
-        setTimeout(() => modal.classList.add("is-visible"), 10);
-      });
-    });
-
-    modalClose.addEventListener("click", () => {
+   
+    const closeModal = () => {
       modal.classList.remove("is-visible");
       setTimeout(() => modal.style.display = "none", 300);
-    });
-    
+    };
+
+    if(modalClose) modalClose.addEventListener("click", closeModal);
     window.addEventListener("click", (e) => {
-      if (e.target == modal) {
-        modal.classList.remove("is-visible");
-        setTimeout(() => modal.style.display = "none", 300);
-      }
+      if (e.target == modal) closeModal();
+    });
+
+    if (modalAddBtn) {
+      modalAddBtn.addEventListener("click", () => {
+        if (currentProductData) {
+          addToCart(currentProductData);
+          closeModal();
+        }
+      });
+    }
+
+    shopItems.forEach(item => {
+      const dataBtn = item.querySelector("[data-add-to-cart]");
+      if (!dataBtn) return;
+
+    
+      const triggerAreas = [item.querySelector(".shop-image"), item.querySelector("h3")];
+      
+      triggerAreas.forEach(trigger => {
+        if(trigger) {
+          trigger.addEventListener("click", () => {
+  
+            document.getElementById("modal-title").textContent = dataBtn.dataset.name;
+            document.getElementById("modal-price").textContent = "$" + dataBtn.dataset.price;
+            
+            const modalImg = document.getElementById("modal-img");
+            let bgImage = window.getComputedStyle(item.querySelector(".shop-image")).backgroundImage;
+            modalImg.style.backgroundImage = bgImage;
+
+            currentProductData = {
+                id: dataBtn.dataset.id,
+                name: dataBtn.dataset.name,
+                price: Number(dataBtn.dataset.price),
+                image: dataBtn.dataset.image || 'assets/default-plate.jpg'
+            };
+
+         
+            modal.style.display = "flex";
+            setTimeout(() => modal.classList.add("is-visible"), 10);
+          });
+        }
+      });
     });
   }
 
-  // Botones directos
-  const addToCartButtons = document.querySelectorAll("[data-add-to-cart]");
-  addToCartButtons.forEach(button => {
-    button.addEventListener("click", (e) => {
-      e.stopPropagation();
+  const directButtons = document.querySelectorAll("[data-add-to-cart]");
+  directButtons.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation(); 
       addToCart({
-        id: button.dataset.id,
-        name: button.dataset.name,
-        price: Number(button.dataset.price),
-        image: button.dataset.image
+        id: btn.dataset.id,
+        name: btn.dataset.name,
+        price: Number(btn.dataset.price),
+        image: btn.dataset.image
       });
     });
   });
 
-  /*
-     5. CHECKOUT */
-  const checkoutForm = document.getElementById("checkout-form");
-  if (checkoutForm) {
-    checkoutForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const btn = checkoutForm.querySelector("button[type='submit']");
-      btn.textContent = "Sending to kitchen...";
-      btn.disabled = true;
-
-      setTimeout(() => {
-        localStorage.removeItem("loopCart");
-        cart = [];
-        updateCartUI();
-        alert("Order Confirmed! Your order #FD-" + Math.floor(Math.random() * 10000) + " It is being prepared.");
-        window.location.href = "index.html";
-      }, 2000);
-    });
+  function updateYear() {
+    const yearSpan = document.getElementById("year");
+    if(yearSpan) yearSpan.textContent = new Date().getFullYear();
   }
 
- 
-  /*
-     6. FILTROS DE MENÚ
-      */
-  const filterButtons = document.querySelectorAll(".shop-filters button");
-  const items = document.querySelectorAll(".shop-item");
-  if (filterButtons.length) {
+  /*6. FILTROS DEL MENÚ*/
+
+  const filterButtons = document.querySelectorAll('.shop-filters button');
+  const allShopItems = document.querySelectorAll('.shop-item');
+
+  if (filterButtons.length > 0) {
     filterButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-      
-        const filter = btn.dataset.filter || btn.textContent.toLowerCase();
+      btn.addEventListener('click', () => {
         
-        filterButtons.forEach(b => b.classList.remove("is-active"));
-        btn.classList.add("is-active");
+        filterButtons.forEach(b => b.classList.remove('is-active'));
         
-        items.forEach(item => {
-          if (filter === "todo" || item.dataset.category === filter) {
-            item.style.display = "block";
+        btn.classList.add('is-active');
+
+        
+        const category = btn.dataset.filter;
+
+        
+        allShopItems.forEach(item => {
+          if (category === 'todo' || item.dataset.category === category) {
+            item.style.display = 'block'; 
+            setTimeout(() => item.style.opacity = '1', 50);
           } else {
-            item.style.display = "none";
+            item.style.display = 'none'; 
+            item.style.opacity = '0';
           }
         });
       });
     });
   }
 
-  /*
-     7. MENÚ MÓVIL
-      */
-  const menuToggle = document.querySelector(".menu-toggle");
-  const mobileMenu = document.getElementById("mobile-menu");
-
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener("click", () => {
-      if (mobileMenu.hasAttribute("hidden")) {
-        mobileMenu.removeAttribute("hidden");
-        menuToggle.querySelector(".menu-toggle-label").textContent = "Cerrar";
-      } else {
-        mobileMenu.setAttribute("hidden", "");
-        menuToggle.querySelector(".menu-toggle-label").textContent = "Menú";
-      }
-    });
-  }
-
-  /* 
-     8. ANIMACIONES SCROLL
-      */
-  const fadeElements = document.querySelectorAll('.fade-in');
-  const appearOnScroll = new IntersectionObserver((entries, appearOnScroll) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        appearOnScroll.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
-
-  fadeElements.forEach(el => appearOnScroll.observe(el));
-  
-  // Header scroll effect
-  const header = document.querySelector(".header");
-  window.addEventListener("scroll", () => {
-    if (window.pageYOffset > 10) header.classList.add("is-scrolled");
-    else header.classList.remove("is-scrolled");
-  });
-
-
-/* 
-     9. NEWSLETTER (RECIBIR NOTICIAS)
-      */
-  const signupBtn = document.getElementById("toggle-signup");
-  const signupContainer = document.getElementById("intro-signup");
-  const signupForm = document.querySelector(".signup-form");
-
- 
-  if (signupBtn && signupContainer) {
-    signupBtn.addEventListener("click", () => {
-      
-      signupBtn.style.display = "none";
-      
-      signupContainer.removeAttribute("hidden");
-      
-      const input = signupContainer.querySelector("input");
-      if(input) input.focus();
-    });
-  }
-
-  if (signupForm) {
-    signupForm.addEventListener("submit", (e) => {
-      e.preventDefault(); 
-      
-      const emailInput = signupForm.querySelector("input[type='email']");
-      
-      if (emailInput.value.trim() !== "") {
-    
-        signupContainer.innerHTML = `
-          <div class="signup-success">
-            <span style="color: var(--brand-orange); font-size: 24px;">★</span>
-            <p><strong>Welcome to the table!</strong><br>We have sent you a confirmation email</p>
-          </div>
-        `;
-      }
-    });
-  }
-
-  /* =========================================
-   SCRIPT DE MAGIA VISUAL
-   ========================================= */
-
-// 1. EFECTO PARALLAX EN EL HERO (La imagen se mueve lento)
-window.addEventListener('scroll', function() {
-  const scrollPosition = window.pageYOffset;
-  const heroImage = document.querySelector('.hero-section img');
-  
-  if (heroImage) {
-    // La imagen se mueve a la mitad de velocidad del scroll (0.5)
-    heroImage.style.transform = `translateY(${scrollPosition * 0.5}px)`;
-  }
-});
-
-// 2. DETECTOR DE SCROLL PARA ANIMACIONES (Reveal)
-const observerOptions = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.15 // Se activa cuando el 15% del elemento es visible
-};
-
-const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target); // Dejar de observar una vez animado
-    }
-  });
-}, observerOptions);
-
-// Buscar todos los elementos que tengan la clase 'animate-up'
-document.addEventListener('DOMContentLoaded', () => {
-  const animatedElements = document.querySelectorAll('.animate-up');
-  animatedElements.forEach(el => observer.observe(el));
-});
-
-  });
+}); 
