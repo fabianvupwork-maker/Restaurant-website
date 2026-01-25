@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
     checkoutButton.addEventListener("click", () => {
       if (cart.length === 0) return;
 
-      const phoneNumber = "50686646411";
+      const phoneNumber = "50688403178";
       let message = "Hello, Flavors of Dawn. I would like to place an order:\n\n";
       let total = 0;
 
